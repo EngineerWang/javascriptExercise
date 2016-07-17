@@ -1,0 +1,49 @@
+*{
+	margin:0;
+	padding:0;
+}
+ul li{
+	list-style:none;
+}
+a{
+	text-decoration:none;
+}
+body{
+	background-color:#ccc;
+}
+#title{
+	height:100px;
+	line-height:100px;
+	font-size:50px;
+	color:#fff;
+	text-shadow:0 0 5px #FF0000;
+	text-align:center;
+}
+#icon{
+	width:750px;
+	height:100px;
+	margin:0 auto;
+}
+#icon #icon-last{
+	margin-right:0;
+}
+#icon li{
+	float:left;
+	margin-right:50px;
+}
+#main-picture{
+	position:relative;
+	display:block;
+	top:50px;
+	clear:both;
+	margin:0 auto;
+}
+#paragraph{
+	position:relative;
+	top:40px;
+	height:100px;
+	text-align:center;
+	line-height:100px;
+	font-size:20px;
+	font-weight:bold;
+}
