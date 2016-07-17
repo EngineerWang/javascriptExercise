@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	#wrapper{
+		position:relative;
+		margin-right: 10px;
+		float:left;
+	}
+	#little-img{
+		width:400px;
+		height:400px;
+	}
+	#img{
+		position:relative;
+		width:400px;
+		height:400px;
+		overflow:hidden;
+		display:none;
+		float:left;
+	}
+	#zoom{
+		display:none;
+		position:absolute;
+		width:100px;
+		height:100px;
+		background-color: #ccc;
+		opacity:0.5;
+		filter:alpha(opacity = 50);
+	}
+	#big-img{
+		position:absolute;
+	}
+	#mask{
+		position:absolute;
+		width:400px;
+		height:400px;
+		background-color: #fff;
+		top:0;
+		left:0;
+		opacity:0;
+		z-index: 1;
+		filter:alpha(opacity = 0);
+		cursor:move;
+	}
+</style>
+<body>
+	<div id="wrapper">
+		<div id="mask"></div>
+		<img src="img/LittleImage.jpg" alt="" id="little-img">
+		<div id="zoom"></div>
+	</div>
+	<div id="img">
+		<img src="img/BigImage.jpg" alt="" id="big-img">
+	</div>
+
+
+	<script>
+		var oWrapper = document.getElementById("wrapper");
+		var oZoom = document.getElementById("zoom");
+		var oImg = document.getElementById("img");
+		var oBigImg = document.getElementById("big-img");
+		var oMask = document.getElementById("mask");
+		oMask.onmouseover = function(){
+			oZoom.style.display = "block";
+			oImg.style.display = "block";
+		}
+		oMask.onmousemove = function(e){
+				e = e || event;
+				var iDisX = oZoom.offsetWidth/2;
+				var iDisY = oZoom.offsetHeight/2;
+				oZoom.style.left = e.clientX - iDisX + "px";
+				oZoom.style.top = e.clientY - iDisY + "px";
+				if(oZoom.offsetLeft >= oWrapper.offsetWidth - oZoom.offsetWidth){
+					oZoom.style.left = oWrapper.offsetWidth - oZoom.offsetWidth + "px";
+				}
+				if(oZoom.offsetTop >= oWrapper.offsetHeight - oZoom.offsetHeight){
+					oZoom.style.top = oWrapper.offsetHeight - oZoom.offsetHeight + "px";
+				}
+				if(oZoom.offsetLeft <= 0){
+					oZoom.style.left = 0
+				}
+				if(oZoom.offsetTop <= 0){
+					oZoom.style.top = 0;
+				}
+				var iInsX = (e.clientX - oZoom.offsetWidth / 2) / (oWrapper.offsetWidth - oZoom.offsetWidth);
+				var iInsY = (e.clientY - oZoom.offsetHeight / 2) / (oWrapper.offsetHeight - oZoom.offsetHeight);
+				oBigImg.style.left = -iInsX*(oBigImg.offsetWidth - oImg.offsetWidth) + "px";
+				oBigImg.style.top = -iInsY*(oBigImg.offsetHeight - oImg.offsetHeight) + "px";
+			}
+			oMask.onmouseout = function(){
+				oZoom.style.display = "none";
+				oImg.style.display = "none";
+			}
+	</script>
+</body>
+</html>

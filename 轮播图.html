@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		ul{
+			list-style:none;
+		}
+		#imgs .select{
+			display:block;
+		}
+		#imgs img{
+			display:none;
+		}
+		#container{
+			position:relative;
+			width:730px;
+			height:454px;
+			margin:200px auto;
+		}
+		#select-item{
+			position: absolute;
+			bottom:0;
+			left:50%;
+			margin-left:-75px;
+		}
+		#select-item .select{
+			background-color: orange;
+		}
+		#select-item li{
+			float:left;
+			width:20px;
+			height:20px;
+			line-height:20px;
+			text-align: center;
+			background-color: #ccc;
+			border-radius:50%;
+			margin-right:5px;
+			cursor:pointer;
+		}
+		#pre,#next{
+			position:absolute;
+			display:none;
+			color:#fff;
+			width:28px;
+			height:62px;
+			font-size:20px;
+			line-height:62px;
+			text-align: center;
+			font-weight:400;
+			background-color:rgba(0,0,0,.2);
+			top:50%;
+			margin-top:-31px;
+			cursor:pointer;
+		}
+		#pre{
+			left:0;
+		}
+		#next{
+			right:0;
+		}
+		#mask{
+			position:absolute;
+			width:730px;
+			height:454px;
+			background-color: #ccc;
+			line-height: 454px;
+			text-align: center;
+			z-index:1;
+			opacity:0.8;
+			filter:alpha(opacity = 80);
+			font-size:20px;
+			font-weight:bold;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="mask">加载中...</div>
+		<div id="imgs"></div>
+		<ul id="select-item"></ul>
+		<div id="select-mov">
+			<span id="pre">&lt;</span>
+			<span id="next">&gt;</span>
+		</div>
+	</div>
+
+
+	<script>
+		var oImgs = getElemById("imgs");
+		var aImgs = getElemsByTagName(oImgs,"img");
+		var oSelectItem = getElemById("select-item");
+		var aItemLi = getElemsByTagName(oSelectItem,"li");
+		var oPre = getElemById("pre");
+		var oNext = getElemById("next");
+		var oMask = getElemById("mask");
+		var oContainer = getElemById("container");
+		var nowIdx = 0
+		var imgNum = 6;
+		var count = 0;
+		oSelectItem.style.marginLeft = -(imgNum * 25/2) + "px";
+		for(var i = 0; i < imgNum; i++){
+			var oLi = document.createElement("li");
+			oLi.innerHTML = i + 1;
+			oSelectItem.appendChild(oLi);
+			var oImg = new Image();
+			oImg.onload = function(){
+				count++;
+				if(count == imgNum){
+					loadSucessful();
+				}
+			}
+			oImg.src = "img/" + (i + 1) + ".jpg";
+			oImgs.appendChild(oImg);
+		}
+		function loadSucessful(){
+			oContainer.removeChild(oMask);
+			changeImg(nowIdx);
+			for(var i = 0; i < imgNum; i++){
+				aItemLi[i].index = i;
+				aItemLi[i].onmouseover = function(){
+					changeImg(this.index);
+				}
+			}
+		}
+		oPre.onclick = oNext.onclick = function(){
+			if(this == oPre){
+				nowIdx--;
+				if(nowIdx == -1){
+					nowIdx = aItemLi.length - 1;
+				}
+			}else{
+				nowIdx++;
+				if(nowIdx == aItemLi.length){
+					nowIdx = 0;
+				}
+			}
+				changeImg(nowIdx);
+			}
+		var timer = setInterval(function(){
+				oNext.onclick();
+			},1000);
+		oContainer.onmouseover = function(){
+			clearInterval(timer);
+			oPre.style.display = "inline-block";
+			oNext.style.display = "inline-block";
+		}
+		oContainer.onmouseout = function(){
+			clearInterval(timer);
+			timer = setInterval(function(){
+				oNext.onclick();
+			},1000);
+			oPre.style.display = "none";
+			oNext.style.display = "none";
+		}
+		function changeImg(idx){
+			nowIdx = idx;
+			for(var j = 0; j < aItemLi.length; j++){
+				aItemLi[j].style.backgroundColor = "#ccc";
+				aImgs[j].style.display = "none"; 
+			}
+			aItemLi[idx].style.backgroundColor = "orange";
+			aImgs[idx].style.display = "block";
+		}
+		function getElemById(id){
+			return document.getElementById(id);
+		}
+		function getElemsByTagName(obj,name){
+			return obj.getElementsByTagName(name);
+		}
+	</script>
+</body>
+</html>

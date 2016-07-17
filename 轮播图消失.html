@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#container{
+			width:730px;
+			height:454px;
+			margin: 50px auto;
+			position:relative;
+			overflow:hidden;
+		}
+		#container img{
+			width:730px;
+			height:454px;
+			position:absolute;
+			top:0;
+			left:0;
+		}
+	</style>
+</head>
+<body onselectstart="return false;">
+	<div id="container">
+		<img src="img/1.jpg" alt="" style="z-index:4">
+		<img src="img/2.jpg" alt="" style="z-index:3">
+		<img src="img/3.jpg" alt="" style="z-index:2">
+		<img src="img/4.jpg" alt="" style="z-index:1">
+	</div>
+
+
+	<script src="js/wichung-1.0.js"></script>
+	<script>
+		var oContainer = document.getElementById("container");
+		var aImgs = oContainer.getElementsByTagName("img");
+		/*var bFlag = false;*/
+		 oContainer.onclick = function(e){
+		 /*	if(bFlag){
+		 		return;
+		 	}*/
+			var target = e.target || window.event.srcElement;
+			// bFlag = true;
+			var data = {opacity:0};
+			if(target != oContainer){
+				var rand = Math.floor(Math.random() * 4);
+				switch(rand){
+					case 0:
+						data.top = -aImgs[0].offsetHeight;
+						break;
+					case 1:
+						data.top = aImgs[0].offsetHeight;
+						break;
+					case 2:
+						data.left = -aImgs[0].offsetWidth;
+						break;
+					case 3:
+						data.left = aImgs[0].offsetWidth;
+				}
+				animate(target,data,function(){
+					target.style.top = 0;
+					target.style.left = 0;
+					for(var i = 0; i < aImgs.length; i++){
+						aImgs[i].style.zIndex++;
+					}
+					target.style.zIndex = 1;
+					target.style.opacity = 1;
+					target.style.filter = "alpha(opacity = 100)";
+					// bFlag = false;
+				});
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#container{
+			position:relative;
+			height:500px;
+			width:1000px;
+			margin:50px auto 0;
+			border:1px solid black;
+			background-color: #ccc;
+		}
+		#btn{
+			margin:20px auto;
+			width:170px;
+		}
+		#btn button{
+			width:50px;
+			height:30px;
+			text-align:center;
+			line-height:30px;
+			float:left;
+			margin-right:10px;
+		}
+		#over{
+			margin-right: 0!important;
+		}
+		.block{
+			width:20px;
+			height:20px;
+			float:left;
+			background-color: #ADF1F9;
+		}
+		.snake{
+			position:absolute;
+			background-color: #05FC41;
+			top:60px;
+			border:1px solid #FDF503;
+			z-index:1;
+		}
+		.Food{
+			position:absolute;
+			background-color: #FC9004;
+		}
+		.crossCity{
+			position:absolute;
+			border-radius:50%;
+		}
+		.crossCity1{
+			background-color:#54CA26;
+		}
+		.crossCity2{
+			background-color: #fff;
+		}
+		.crossPrompt{
+			position:absolute;
+			width:500px;
+			height:250px;
+			left:50%;
+			top:-250px;
+			margin-left:-250px;
+			color:#fff;
+			text-shadow:2px 2px 4px #FF0000;
+			-webkit-box-reflect:below -150px -webkit-linear-gradient(transparent,transparent 50%,rgba(255,255,255,.3));
+			text-transform:uppercase;
+			font-weight: bold;
+			font-size:100px;
+			text-align:center;
+			line-height:250px;
+			z-index:1;
+		}
+		#city{
+			position:absolute;
+			height:500px;
+			width:395px;
+			background-color: #ccc;
+			top:50px;
+			left:50%;
+			margin-left:-200px;
+		}
+		.cityRace{
+			position:relative;
+			width:95px;
+			height:500px;
+			margin-right: 5px;
+			background-color: #085AE9;
+			float:left;
+		}
+		#car{
+			position:absolute;
+			width:78px;
+			height:180px;
+			background:url(img/car.png) no-repeat -34px 20px;
+			bottom:0;
+			left:50%;
+			margin-left:-39px;
+			z-index: 1;
+		}
+		.coin{
+			position:absolute;
+			width:50px;
+			height:50px;
+			border-radius:50%;
+			background-color: #EAFC03;
+			line-height:50px;
+			left:50%;
+			margin-left:-25px;
+			text-align:center;
+			color:#fff;
+			font-size:30px;
+			font-weight:bold;
+		}
+	</style>
+<body>
+	<div id="container"></div>
+	<div id="btn">
+		<button id="begin">开始</button>
+		<button id="pause">暂停</button>
+		<button id="over">结束</button>
+	</div>
+	
+
+
+	<script>
+	function Game(){
+		this.start = document.getElementById('begin');
+		this.pause = document.getElementById('pause');
+		this.over = document.getElementById('over');
+		this.timer = null;
+	}
+	Game.prototype.onKeyDown = function(){
+
+	}
+	function Ground(){
+		this.width = 50;
+		this.height = 25;
+		this.dom = document.getElementById('container');
+	}
+	Ground.prototype.init = function(){
+		for(var i = 0; i < this.width*this.height; i++){
+			var oBlock = document.createElement("div");
+			oBlock.className = "block";
+			this.dom.appendChild(oBlock);
+		}
+	}
+	function Snake(){
+		this.length = 3;
+		this.body = [];
+		this.direction = 'right';
+		this.speed = 100;
+	}
+	Snake.prototype.init = function(){
+		for(i = 0; i < this.length; i++){
+				var oSnake = document.createElement("div");
+				oSnake.className = "block snake";
+				oSnake.style.left = (3 - i) * 20 + "px";
+				this.body[i] = oSnake;
+			}
+	}
+	Snake.prototype.move = function(){
+		var oSnakeHead = this.body[0];
+		var oNextPos = {
+			left : this.body[0].offsetLeft,
+			top : this.body[0].offsetTop
+		};
+		if(this.direction == "right"){
+			oNextPos.left += 20;
+		}else if(this.direction == "left"){
+			oNextPos.left -= 20;
+		}else if(this.direction == "up"){
+			oNextPos.top -= 20;
+		}else if(this.direction == "down"){
+			oNextPos.top += 20;
+		}
+		for(var i = 0; i < this.body.length; i++){
+			var oNowPos = {
+				left : this.body[i].offsetLeft,
+				top : this.body[i].offsetTop
+			};
+			this.body[i].style.left = oNextPos.left + "px";
+			this.body[i].style.top = oNextPos.top + "px";
+			oNextPos = oNowPos;
+		}
+	}
+	function Food(){
+		this.top = 0;
+		this.left = 0;
+		this.dom = null;
+	}
+	Food.prototype.init = function(){
+			this.dom = document.createElement("div");
+			this.dom.style.left = this.left + "px";
+			this.dom.style.top = this.top + "px";
+			this.dom.className = "block Food";
+	}
+	var game = new Game();
+	game.start.onclick = function(){
+		this.timer = setInterval(function(){
+			snake.move();
+			if(snake.body[0].offsetLeft == food.dom.offsetLeft && snake.body[0].offsetTop == food.dom.offsetTop){
+				snake.body.push(food);
+				food.dom.className = "block snake";
+				createFood();
+			}
+		}, snake.speed);
+	}
+	var ground = new Ground();
+	ground.init();
+	var snake = new Snake();
+	snake.init();
+	for(var i=0; i<snake.body.length; i++){
+		ground.dom.appendChild(snake.body[i]);
+	}
+	var food = new Food();
+	do{
+		food.top = Math.floor(Math.random() * ground.height) * 20;	
+		food.left = Math.floor(Math.random() * ground.width) * 20;
+		var bIsFood = true;
+		for(var i = 0; i < snake.length; i++){
+			if(food.left == snake.body[i].offsetLeft && food.top == snake.body[i].offsetTop){
+				bIsFood = false;
+			}
+		}
+	}while(!bIsFood);
+	food.init();
+	ground.dom.appendChild(food.dom);
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		height:2000px;
+	}
+	#wrapper{
+		position:absolute;
+		width:200px;
+		height:300px;
+		background-color: #ccc;
+		top:200px;
+		left:-200px;
+	}
+	#div{
+		position:absolute;
+		width:100px;
+		height:300px;
+		right:-100px;
+		background-color: red;
+		text-align:center;
+		line-height:300px;
+	}
+</style>
+<body>
+	<div id="wrapper">
+		<div id="div">联系我</div>
+	</div>
+
+
+
+	<script>
+		var oDiv = document.getElementById("div");
+		var oWrapper = document.getElementById("wrapper");
+		var timer;
+		window.onscroll = function(e){
+			e = e || event;
+			var iScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			console.log(iScrollTop);
+			oWrapper.style.top = iScrollTop + 200 + "px";
+		};
+		oWrapper.onmouseover = function(){
+			clearInterval(timer);
+			timer = setInterval(function(){
+				if(oWrapper.offsetLeft >= 0){
+					clearInterval(timer);
+				}else{
+					oWrapper.style.left = oWrapper.offsetLeft + 10 + "px";
+				}
+			},30);
+		};
+		oWrapper.onmouseout = function(){
+			clearInterval(timer);
+			timer = setInterval(function(){
+				if(oWrapper.offsetLeft <= -oWrapper.offsetWidth){
+					clearInterval(timer);
+				}else{
+					oWrapper.style.left = oWrapper.offsetLeft - 10 + "px";
+				}
+			},30);
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	ul li{
+		list-style:none;
+	}
+	#search{
+		width:200px;
+		margin:200px auto;
+		border-top:0;
+	}
+	#search-text{
+		display:block;
+		width:196px;
+		height:30px;
+		text-indent:10px;
+		color:#ccc;
+	}
+	#search-message{
+		/* display:none; */
+		border:1px solid #ccc;
+	}
+	#search-message li{
+		width:200px;
+		height:30px;
+		line-height:30px;
+		vertical-align:center;
+		color:#ccc;
+		text-indent:10px;
+		border-bottom: 1px dotted #ccc;
+	}
+	#search-message .last-li{
+		border-bottom:0;
+	}
+	</style>
+</head>
+<body>
+	<div id="search">
+		<input type="text" id="search-text" value="请输入关键字">
+		<ul id="search-message">
+			<li>iphone 5</li>
+			<li>iphone 4s</li>
+			<li>iphone 6</li>
+			<li>iphone 6s plus</li>
+			<li>huawei</li>
+			<li class="last-li">vivo</li>
+		</ul>
+	</div>
+
+	<script>
+		var oSearch = document.getElementById("search-text");
+		var str = oSearch.value;
+		oSearch.onfocus = function(){
+			if(this.value == str){
+				this.value = "";
+			}
+			this.style.color = "#000";
+		};
+		oSearch.onblur = function(){
+			if(this.value == ""){
+				this.value = str;
+				this.style.color = "#ccc";
+			}
+		};
+		oSearch.onkeydown = function(){
+			
+		};
+	</script>
+</body>
+</html>

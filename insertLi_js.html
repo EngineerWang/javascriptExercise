@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="insert" id="btn">
+	<ul id="ul">
+		<li>0001</li>
+		<li>0002</li>
+		<li>0003</li>
+		<li>0004</li>
+	</ul>
+
+	<script>
+	(function(){
+		var oUl = document.getElementById('ul');
+		var oBtn = document.getElementById('btn');
+		oBtn.onclick = function(){
+			var oLi = document.createElement('li');
+			oLi.innerHTML = Math.random();
+			oUl.appendChild(oLi);
+		}
+		oUl.onclick = function(e){
+			var target = e.targer || window.event.srcElement;
+			if(target != this){
+				alert(target.innerHTML);
+			}
+		}
+	})();
+		
+	</script>
+</body>
+</html>

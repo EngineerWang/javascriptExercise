@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		ul{
+			list-style:none;
+		}
+		#imgs{
+			position:relative;
+			left:0;
+			width:5110px;
+			height:454px;
+		}
+		#imgs .select{
+			display:block;
+		}
+		#imgs img{
+			float:left;
+			/* display:none; */
+		}
+		#container{
+			position:relative;
+			width:730px;
+			height:454px;
+			margin:200px auto;
+			overflow:hidden;
+		}
+		#select-item{
+			position: absolute;
+			bottom:0;
+			left:50%;
+			margin-left:-75px;
+		}
+		#select-item .select{
+			background-color: orange;
+		}
+		#select-item li{
+			float:left;
+			width:20px;
+			height:20px;
+			line-height:20px;
+			text-align: center;
+			background-color: #ccc;
+			border-radius:50%;
+			margin-right:5px;
+			cursor:pointer;
+		}
+		#pre,#next{
+			position:absolute;
+			display:none;
+			color:#fff;
+			width:28px;
+			height:62px;
+			font-size:20px;
+			line-height:62px;
+			text-align: center;
+			font-weight:400;
+			background-color:rgba(0,0,0,.2);
+			top:50%;
+			margin-top:-31px;
+			cursor:pointer;
+		}
+		#pre{
+			left:0;
+		}
+		#next{
+			right:0;
+		}
+		#mask{
+			position:absolute;
+			width:730px;
+			height:454px;
+			background-color: #ccc;
+			line-height: 454px;
+			text-align: center;
+			z-index:1;
+			opacity:0.8;
+			filter:alpha(opacity = 80);
+			font-size:20px;
+			font-weight:bold;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="imgs">
+			<img src="img/1.jpg" alt="" class="select">
+			<img src="img/2.jpg" alt="">
+			<img src="img/3.jpg" alt="">
+			<img src="img/4.jpg" alt="">
+			<img src="img/5.jpg" alt="">
+			<img src="img/6.jpg" alt="">
+		</div>
+		<ul id="select-item">
+			<li class="select">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+		</ul>
+		<div id="select-mov">
+			<span id="pre">&lt;</span>
+			<span id="next">&gt;</span>
+		</div>
+	</div>
+
+	<script src="js/wichung-1.0.js"></script>
+	<script>
+	var oContainer = document.getElementById("container");
+	var oImgs = document.getElementById("imgs");
+	var aImgs = oImgs.getElementsByTagName("img");
+	var oSelectItem = document.getElementById("select-item");
+	var aLi = oSelectItem.getElementsByTagName("li");
+	var oPre = document.getElementById("pre");
+	var oNext = document.getElementById("next");
+	oImgs.appendChild(aImgs[0].cloneNode());
+	var nowIdx = 0;
+	var timer;
+	for(var i = 0; i < aLi.length; i++){
+		aLi[i].index = i;
+		aLi[i].onmouseover = function(){
+			changeImg(this.index);
+		};
+	}
+	function changeImg(idx){
+		nowIdx = idx;
+		for(var i = 0; i < aLi.length; i++){
+			aLi[i].className = "";
+			aImgs[i].className = "";
+		}
+		aLi[nowIdx == aLi.length ? 0 : nowIdx].className = "select";
+		animate(oImgs,{
+			left:-nowIdx*aImgs[0].offsetWidth
+		});
+	}
+	oContainer.onmouseover = function(){
+		oPre.style.display = "block";
+		oNext.style.display = "block";
+		clearInterval(timer);
+	};
+	oContainer.onmouseout = function(){
+		oPre.style.display = "none";
+		oNext.style.display = "none";
+		clearInterval(timer);
+		timer = setInterval(function(){
+			oNext.onclick();
+		},2000);
+	};
+	oPre.onclick = oNext.onclick = function(){
+		if(this == oNext){
+			nowIdx++;
+			if(nowIdx == aImgs.length){
+				nowIdx = 1;
+				oImgs.style.left = 0;
+			}
+			changeImg(nowIdx);
+		}else{
+			nowIdx--;
+			if(nowIdx == -1){
+				nowIdx = aImgs.length -2;
+				oImgs.style.left = -6 * aImgs[0].offsetWidth + "px";
+			}
+			changeImg(nowIdx);
+		}
+	};
+	timer = setInterval(function(){
+			oNext.onclick();
+		},2000);
+	</script>
+</body>
+</html>

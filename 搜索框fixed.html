@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		height:2000px;
+	}
+	#header{
+		height:200px;
+		width:100%;
+		background-color: green;
+	}
+	#search{
+		width:100%;
+		height:50px;
+		background-color: red;
+	}
+	.fix{
+		position:fixed;
+		top:0;
+		left:0;
+	}
+</style>
+<body>
+	<div id="header"></div>
+	<div id="search"></div>
+
+
+	<script>
+		var oSearch = document.getElementById("search");
+		var iSearchTop = oSearch.offsetTop;
+		var bIsFixed = false;
+		window.onscroll = function(){
+			var iScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			if(iScrollTop >= iSearchTop && !bIsFixed){
+				oSearch.className = "fix";
+				bIsFixed = true;
+			}else if(iScrollTop < iSearchTop && bIsFixed){
+				oSearch.className = "";
+				bIsFixed = false;
+			}
+		};
+	</script>
+</body>
+</html>

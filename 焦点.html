@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#search{
+			margin:200px auto;
+			width:200px;
+			height:30px;
+			color:#ccc;
+			text-indent:10px;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<input type="text" id="search" value="请输入关键字">
+
+
+
+	<script>
+		var oSearch = document.getElementById('search');
+		var str = oSearch.value;
+        oSearch.onfocus = function(){
+        	if(this.value == str){
+        		this.value = '';
+        	}
+        	this.style.color = '#000';
+        }
+        oSearch.onblur = function(){
+        	if(this.value == ''){
+        		this.value = str;
+        		this.style.color = '#ccc';
+        	}
+        }
+	</script>
+</body>
+</html>

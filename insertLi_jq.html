@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" id="btn" value="insert">
+	<ul id="ul">
+		<li>001</li>
+		<li>002</li>
+		<li>003</li>
+		<li>004</li>
+	</ul>
+
+	<script src="js/jquery-1.12.4.min.js"></script>
+	<script>
+		$(function(){
+			var $btn = $('#btn');
+			var $ul = $('#ul');
+			$btn.on('click', function(){
+				$ul.append('<li>' + Math.random() + '</li>');
+			});
+			// $ul.on('click', 'li' , function(){
+			// 	alert(this.innerHTML);
+			// });
+			$ul.on('click', function(e){
+				alert(e.target.innerHTML);
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#container{
+			height:300px;
+			margin:0 auto;
+			width:500px;
+		}
+		#container div{
+			float:left;
+			width:100px;
+			height:300px;
+		}
+		#div1{
+			background-color: red;
+		}
+		#div2{
+			background-color: orange;
+		}
+		#div3{
+			background-color: yellow;
+		}
+		#div4{
+			background-color:green;
+		}
+		#div5{
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="div1"></div>
+		<div id="div2"></div>
+		<div id="div3"></div>
+		<div id="div4"></div>
+		<div id="div5"></div>
+	</div>
+
+
+
+	<script>
+		var oContainer = document.getElementById("container");
+		var aDivs = oContainer.getElementsByTagName("div");
+		for(var i = 0; i < aDivs.length; i++){
+			aDivs[i].timer = null;
+			console.log("11111");
+			var that;
+			aDivs[i].onmouseover = function(){
+				that = this;
+				for(var j = 0; j < aDivs.length; j++){
+					clearInterval(aDivs[j].timer);
+				}
+				for(var j = 0; j < aDivs.length; j++){
+					
+					if(aDivs[j] != this){
+						(function(j){
+							aDivs[j].timer = setInterval(function(){
+								if(aDivs[j].offsetWidth <= 50){
+									clearInterval(aDivs[j].timer);
+								}else{
+									aDivs[j].style.width = aDivs[j].offsetWidth - 10 + "px";
+								}
+							},30);
+						})(j);
+					}
+				}
+				this.timer = setInterval(function(){
+					if(that.offsetWidth >= 300){
+						clearInterval(that.timer);
+					}else{
+						that.style.width = that.offsetWidth + 10 + "px";
+					}
+				},30);
+			}
+		};
+	</script>
+</body>
+</html>

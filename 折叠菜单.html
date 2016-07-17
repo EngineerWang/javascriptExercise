@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	ul{
+		list-style:none;
+	}
+	#container{
+		margin:200px auto;
+		width:100px;
+		border:1px solid black;
+	}
+	#container h3{
+		cursor:pointer;
+		background-color: #000;
+		color:#fff;
+		width:100px;
+		height:30px;
+		line-height:30px;
+		text-align: center;
+	}
+	#container ul{
+		display:none;
+	}
+	#container ul li{
+		width:100px;
+		height:30px;
+		line-height: 30px;
+		text-align: center;
+	}
+	#container ul li:hover{
+		background-color: #ccc;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<h3>主菜单 1</h3>
+		<ul>
+			<li>子菜单 1</li>
+			<li>子菜单 2</li>
+			<li>子菜单 3</li>
+			<li>子菜单 4</li>
+		</ul>
+		<h3>主菜单 2</h3>
+		<ul>
+			<li>子菜单 1</li>
+			<li>子菜单 2</li>
+			<li>子菜单 3</li>
+			<li>子菜单 4</li>
+		</ul>
+	</div>
+
+
+
+	<script>
+		var oContainer = document.getElementById("container");
+		var aH3 = oContainer.getElementsByTagName("h3");
+		for(var i = 0; i < aH3.length; i++){
+			aH3[i].onclick = function(){
+				var oUl = next(this);
+				oUl.style.display = oUl.style.display == "block" ? "none" : "block";
+			};
+		}
+		function next(elem){
+			do{
+				elem = elem.nextSibling;
+			}while(elem && elem.nodeType != 1)
+			return elem;
+		}
+	</script>
+</body>
+</html>

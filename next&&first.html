@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="div1">
+		<h1 id="h1">hhhhhhhhh</h1>
+		<p>pppppppppppp</p>
+	</div>
+
+	<script>
+		var oDiv = document.getElementById('div1');
+		var oH1 = document.getElementById('h1');
+		function next(elem){
+			do{
+				elem = elem.nextSibling;
+			}while(elem && elem.nodeType != 1)
+			return elem;
+		}
+
+
+
+		function first(elem){
+			elem = elem.firstChild;
+			return elem && elem.nodeType == 1 ?elem : next(elem);
+		}
+	</script>
+</body>
+</html>

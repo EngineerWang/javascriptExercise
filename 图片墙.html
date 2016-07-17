@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		html,body{
+			width:100%;
+			height:100%;
+		}
+		#container{
+			width:100%;
+			height:100%;
+			background:url(imgs/bg.jpg) repeat;
+			position:relative;
+		}
+		#container img{
+			position:absolute;
+			border:5px solid #fff;
+			width:125px;
+			height:125px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+
+
+
+	<script src="js/wichung-1.0.js"></script>
+	<script>
+		var oContainer = document.getElementById("container");
+		var row = 4,
+			col = 6,
+			count = 0,
+			img_width = 125,
+			img_height = 125,
+			aImgs = [],
+			zIndex = 0;
+		for(var i=0; i<(row * col); i++){
+			var oImg = new Image();
+			oImg.onload = function(){
+				count++;
+				if(count == row * col){
+					loadSuccess();
+				}
+			};
+			oImg.src = "imgs/" + (i + 1) + ".jpg";
+			aImgs.push(oImg);
+		}
+		function loadSuccess(){
+			var iColGap = (oContainer.offsetWidth - col * img_width) / (col + 1);
+			var iRowGap = (oContainer.offsetHeight - row * img_height) / (row + 1);
+			for(var i=0; i<row; i++){
+				for(var j=0; j<col; j++){
+					aImgs[i * col + j].style.left = iColGap + j * (iColGap + img_width) + "px";
+					aImgs[i * col + j].style.top = iRowGap + i * (iRowGap + img_height) + "px";
+					oContainer.appendChild(aImgs[i * col + j]); 
+				}
+			}
+			oContainer.onmouseover = function(e){
+				var target = e.target || window.event.srcElement;
+				target.style.zIndex = ++zIndex;
+				if(target != oContainer){
+					target.style.cursor = "pointer";
+					animate(target,{
+						width:195,
+						height:195,
+						marginTop:-35,
+						marginLeft:-35
+					});
+				}
+			};
+			oContainer.onmouseout = function(e){
+				var target = e.target || window.event.srcElement;
+				if(target != oContainer){
+					target.style.pointer = "none";
+					animate(target,{
+						width:125,
+						height:125,
+						marginTop:0,
+						marginLeft:0
+					});
+				}
+			};
+		}
+	</script>
+</body>
+</html>

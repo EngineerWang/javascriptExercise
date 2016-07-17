@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	ul{
+		list-style:none;
+	}
+	#container{
+		position:relative;
+		width:480px;
+		height:300px;
+		margin:200px auto;
+		border:1px solid black;
+		overflow:hidden;
+		background-color: blue;
+	}
+	#item-wrapper{
+		position:absolute;
+		width:640px;
+		height:200px;
+		top:0;
+	}
+	#item-wrapper li{
+		width:150px;
+		height:200px;
+		background-color:yellow;
+		margin-right:10px;
+		font-size:20px;
+		font-weight:bold;
+		line-height:200px;
+		text-align: center;
+		float:left;
+	}
+	#select{
+		position:absolute;
+		width:480px;
+		height:100px;
+		clear:both;
+		bottom:0;
+	}
+	#select .wrapper{
+		position:absolute;
+		width:130px;
+		height:30px;
+		top:50%;
+		margin-top:-15px;
+		left:50%;
+		margin-left:-65px;
+	}
+	#select span{
+		width:60px;
+		height:30px;
+		text-align: center;
+		line-height:30px;
+		background-color: #ccc;
+		cursor:pointer;
+	}
+	#left{
+		float:left;
+		margin-right:10px;
+	}
+	#right{
+		float:right;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<ul id="item-wrapper">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+		</ul>
+		<div id="select">
+			<div class="wrapper">
+				<span id="left">向左</span>
+				<span id="right">向右</span>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
+		var oContainer = document.getElementById("container");
+		var oItemWrapper =document.getElementById("item-wrapper");
+		var oLeft = document.getElementById("left");
+		var oRight = document.getElementById("right");
+		oItemWrapper.innerHTML += oItemWrapper.innerHTML;
+		oItemWrapper.style.width = oItemWrapper.offsetWidth*2 + "px";
+		var speed = 10;
+		var timer = setInterval(function(){
+			oItemWrapper.style.left = oItemWrapper.offsetLeft - speed + "px";
+			if(oItemWrapper.offsetLeft <= -oItemWrapper.offsetWidth/2){
+				oItemWrapper.style.left = 0;
+			}
+			if(oItemWrapper.offsetLeft > 0){
+				oItemWrapper.style.left = -oItemWrapper.offsetWidth/2 + "px";
+			}
+		},50);
+		oLeft.onmouseover = oRight.onmouseover = function(){
+			if(this == oLeft){
+				speed = 10;
+			}else{
+				speed = -10;
+			}
+		}
+	</script>
+</body>
+</html>

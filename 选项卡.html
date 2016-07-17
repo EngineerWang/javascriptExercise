@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		ul{
+			list-style:none;
+		}
+		#container{
+			width:364px;
+			height:300px;
+			background-color: green;
+			margin:200px auto;
+		}
+		#container div{
+			height:269px;
+			font-size:30px;
+			text-align:center;
+			font-weight:bold;
+			line-height:269px;
+			display:none;
+		}
+		#container .select-div{
+			display:block;
+		}
+		#menu{
+			height:30px;
+			border-bottom:1px solid blue;
+		}
+		#menu li{
+			height:30px;
+			width:120px;
+			margin-right:2px;
+			float:left;
+			text-align:center;
+			line-height:30px;
+			background-color: yellow;
+			font-weight:bold;
+			cursor:pointer;
+			color:#000;
+		}
+		#menu #menu-last-child{
+			margin-right:0;
+		}
+		#menu .select-menu{
+			background-color: red;
+			color:#fff;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<ul id="menu">
+			<li class="select-menu">HTML</li>
+			<li>CSS</li>
+			<li id="menu-last-child">JavaScript</li>
+		</ul>
+		<div class='select-div'>html</div>
+		<div>css</div>
+		<div>js</div>
+	</div>
+
+
+	<script>
+		var oContainer = document.getElementById('container');
+		var oMenu = document.getElementById('menu');
+		var aLi = oMenu.getElementsByTagName('li');
+		var aDiv = oContainer.getElementsByTagName('div');
+		for(var i = 0; i<aLi.length; i++){
+			aLi[i].index = i;
+			aLi[i].onmouseover = function(){
+				for(var j = 0; j<aLi.length; j++){
+					aLi[j].className = '';
+					aDiv[j].className = '';
+				}
+				this.className = 'select-menu';
+				aDiv[this.index].className = 'select-div';
+			};
+		}
+	</script>
+</body>
+</html>
