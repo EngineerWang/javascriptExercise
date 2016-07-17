@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#div1{
+			width:400px;
+			height:400px;
+			background-color: blue;
+		}
+		#div2{
+			width:300px;
+			height:300px;
+			background-color: yellow;
+		}
+		#div3{
+			width:200px;
+			height:200px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<input type="button" value="click" id="btn">
+
+	<script>
+		(function(){
+			var oBtn = document.getElementById('btn');
+			function fn1(){
+				alert(1);
+			}
+			function fn2(){
+				alert(2);
+			}
+			addEvent(oBtn, 'click', fn1);
+			addEvent(oBtn, 'click', fn2);
+			// function fn(){
+			// 	alert(this.id);
+			// }
+			// addEvent(oBtn, 'click', fn);
+			// removeEvent(oBtn, 'click', fn);
+			// removeEvent(oBtn, 'click', fn1);
+			// removeEvent(oBtn, 'click', fn2);
+			function addEvent(elem, type, handle){
+				if(elem.addEventListener){
+					elem.addEventListener(type, handle, false);
+				}else if(elem.attachEvent){
+					elem[type + handle] = function(){
+						handle.call(elem);
+					}
+					elem.attachEvent('on' + type, elem[type + handle]);
+				}else{
+					elem['on' + type] = handle;
+				}
+			}
+			function removeEvent(elem, type, handle){
+				if(elem.removeEventListener){
+					elem.removeEventListener(type, handle, false);
+				}else if(elem.detachEvent){
+					elem.detachEvent('on' + type, elem[type + handle]);
+				}else{
+					elem['on' + type] = null;
+				}
+			}
+
+
+
+
+
+
+		})();
+	</script>
+</body>
+</html>
